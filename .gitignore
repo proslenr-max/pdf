@@ -1,0 +1,16 @@
+# Сборка и артефакты
+target/
+node_modules/
+dist/
+build/
+__pycache__/
+.venv/
+
+# Собранные пакеты и бинарники
+*.tar.gz
+*.wasm
+*.onnx
+
+# Служебное
+.DS_Store
+*.log

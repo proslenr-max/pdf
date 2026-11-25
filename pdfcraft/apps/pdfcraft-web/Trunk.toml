@@ -1,0 +1,23 @@
+# Build with: trunk build --release   (from apps/pdfcraft-web)
+[build]
+target = "index.html"
+dist = "../../dist/web"
+public_url = "./"
+filehash = true
+
+[serve]
+addresses = ["127.0.0.1"]
+port = 8766
+
+# Trunk leaves the OCR worker's files unhashed and unnamed in index.html: hash them and name the
+# worker for the page (xtask/src/web.rs).
+[[hooks]]
+stage = "post_build"
+command = "cargo"
+command_arguments = ["xtask", "web-worker-link"]
+
+# OCR models: repo-root assets/models -> staging dir (trunk applies it to dist/web itself).
+[[hooks]]
+stage = "post_build"
+command = "bash"
+command_arguments = ["-c", "mkdir -p \"$TRUNK_STAGING_DIR/models\" && cp \"$TRUNK_STAGING_DIR/../../../assets/models/\"*.onnx \"$TRUNK_STAGING_DIR/models/\""]
